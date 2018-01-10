@@ -20,35 +20,34 @@ event recordAddedStatus(
     bytes32 entry2,
     bytes32 entry3,
     bytes32 entry4,
-    bytes32 status
+    bool status
     
   );
     
      
   bytes32[] RecordIdsList; 
-  mapping (bytes32 => Data) RecordsList;
+  mapping (bytes32 => Record) RecordsList;
     
 
-function createRecord(bytes32 id,bytes32 entry1,bytes32 entry2, bytes32 entry3,
-     bytes32 entry4){
+function createRecord(bytes32[5] recordData){
     
-    RecordsList[recordId] = Record( recordId, entry1, entry2, entry3, entry4);
-    RecordIdsList.push(recordId);
-    recordAddedStatus(recordId,entry1,entry2,entry3,entry4,true);
+    RecordsList[recordData[0]] = Record( recordData[0], recordData[1], recordData[2], recordData[3], recordData[4]);
+    RecordIdsList.push(recordData[0]);
+    recordAddedStatus(recordData[0],recordData[1],recordData[2],recordData[2],recordData[3],true);
       
     }
     
 
 function getRecordData(bytes32 recordId) returns(
-    bytes32 entry1,
-    bytes32 entry2,
-    bytes32 entry3,
-    bytes32 entry4){
+    bytes32[]){
 
-    entry1 = RecordsList[recordId].entry1;
-    entry2 = RecordsList[recordId].entry2;
-    entry3 = RecordsList[recordId].entry3;
-    entry4 = RecordsList[recordId].entry4;
+    bytes32[] memory recordData =new bytes32[](4);
+
+    recordData[0] = RecordsList[recordId].entry1;
+    recordData[1] = RecordsList[recordId].entry2;
+    recordData[2] = RecordsList[recordId].entry3;
+    recordData[3] = RecordsList[recordId].entry4;
+    return recordData;
  } 
-    
+}    
 

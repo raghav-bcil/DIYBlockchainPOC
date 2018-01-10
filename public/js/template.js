@@ -2,18 +2,19 @@
 function addRecord()
 {
 	var formData = [];
-	for( var i = 1; i < = 5; ++i )
+	for( var i=1; i<=5; ++i )
 	{
 		divName = "entry" + i;
-		if(document.getElementById(divName){
+		if(document.getElementById(divName)){
 			formData.push(document.getElementById(divName).value);
 		}
 		else{
 			break;
 		}		
 	}
+	var formDataTemp = JSON.stringify(formData);
 
-	$.post("/addRecord",{ formData : formData } function(data){
+	$.post("/addRecord",{ formData : formDataTemp },function(data){
 		if(data == "Error")
 		{
 			$("#message").text("An error occured.");
@@ -46,7 +47,7 @@ function getRecordData()
 
 
 
-var socket = io("http://13.124.209.96:8080");
+var socket = io("http://localhost:8080");
 
 socket.on("connect", function () {
 	socket.on("message", function (msg) {
