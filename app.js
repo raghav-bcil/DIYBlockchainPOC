@@ -66,9 +66,9 @@ console.log(web3.isConnected());
 
 //to be read from Database Layer
 
-var contractObject = web3.eth.contract([ { "constant": false, "inputs": [ { "name": "recordId", "type": "bytes32" } ], "name": "getRecordData", "outputs": [ { "name": "", "type": "bytes32[]" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "recordData", "type": "bytes32[5]" } ], "name": "createRecord", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "recordId", "type": "bytes32" }, { "indexed": false, "name": "entry1", "type": "bytes32" }, { "indexed": false, "name": "entry2", "type": "bytes32" }, { "indexed": false, "name": "entry3", "type": "bytes32" }, { "indexed": false, "name": "entry4", "type": "bytes32" }, { "indexed": false, "name": "status", "type": "bool" } ], "name": "recordAddedStatus", "type": "event" } ]);
+var contractObject = web3.eth.contract([ { "constant": true, "inputs": [ { "name": "recordId", "type": "bytes32" } ], "name": "getRecordData", "outputs": [ { "name": "", "type": "bytes32[]" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "recordData", "type": "bytes32[5]" } ], "name": "createRecord", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "recordId", "type": "bytes32" }, { "indexed": false, "name": "entry1", "type": "bytes32" }, { "indexed": false, "name": "entry2", "type": "bytes32" }, { "indexed": false, "name": "entry3", "type": "bytes32" }, { "indexed": false, "name": "entry4", "type": "bytes32" }, { "indexed": false, "name": "status", "type": "bool" } ], "name": "recordAddedStatus", "type": "event" } ]);
 
-var contractInstance = contractObject.at("0xf57284ff3dc3f5be6da002ac10950f172ed73776");
+var contractInstance = contractObject.at("0xdd6c0fcacdf61a1bb49da759e8586f43b182b3a8");
 
 
 
@@ -86,7 +86,7 @@ app.post("/addRecord", function(req, res){
 
 	contractInstance.createRecord.sendTransaction(formDataArray,{
 
-		from: web3.eth.accounts[0],
+		from: web3.eth.accounts[0], gas : 4985667,
 
 	}, function(error, transactionHash){
 
@@ -101,6 +101,7 @@ app.post("/addRecord", function(req, res){
 		else
 
 		{
+			console.log(error);
 
 			res.send("Error");
 
@@ -141,6 +142,7 @@ contractInstance.recordAddedStatus().watch(function(error, result){
 
 		{
 
+			console.log(web3.toAscii(result.args.entry1));
 			io.send(result);
 
 		}

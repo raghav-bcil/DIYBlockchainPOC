@@ -33,12 +33,12 @@ function createRecord(bytes32[5] recordData){
     
     RecordsList[recordData[0]] = Record( recordData[0], recordData[1], recordData[2], recordData[3], recordData[4]);
     RecordIdsList.push(recordData[0]);
-    recordAddedStatus(recordData[0],recordData[1],recordData[2],recordData[2],recordData[3],true);
+    recordAddedStatus(recordData[0],recordData[1],recordData[2],recordData[3],recordData[4],true);
       
     }
     
 
-function getRecordData(bytes32 recordId) returns(
+function getRecordData(bytes32 recordId) constant returns(
     bytes32[]){
 
     bytes32[] memory recordData =new bytes32[](4);
